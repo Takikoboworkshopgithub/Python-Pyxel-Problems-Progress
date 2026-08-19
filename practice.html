@@ -1,0 +1,2148 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IQ Programming Practice</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        /* =========================================================
+         * Windows 95 / 平成レトロ スタイル
+         * ========================================================= */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            background: #008080; /* Windows 95 デスクトップグリーン */
+            color: #000;
+            font-family: "MS PGothic", "ＭＳ Ｐゴシック", "Hiragino Kaku Gothic ProN", sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        button, input, textarea, select {
+            font-family: inherit;
+        }
+
+        /* 3D 枠線定義 */
+        .win-panel {
+            background: #c0c0c0;
+            border-style: solid;
+            border-width: 2px;
+            border-color: #ffffff #404040 #404040 #ffffff;
+            box-shadow: 2px 2px 0 #000;
+        }
+
+        .win-panel-small {
+            background: #c0c0c0;
+            border-style: solid;
+            border-width: 2px;
+            border-color: #ffffff #808080 #808080 #ffffff;
+        }
+
+        .win-inset {
+            background: #ffffff;
+            border-style: solid;
+            border-width: 2px;
+            border-color: #808080 #ffffff #ffffff #808080;
+            box-shadow: inset 1px 1px 0 #000;
+        }
+
+        .win-button {
+            background: #c0c0c0;
+            color: #000;
+            border-style: solid;
+            border-width: 2px;
+            border-color: #ffffff #404040 #404040 #ffffff;
+            box-shadow: 1px 1px 0 #000;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .win-button:hover {
+            background: #d4d4d4;
+        }
+
+        .win-button:active {
+            border-color: #404040 #ffffff #ffffff #404040;
+            box-shadow: none;
+            transform: translate(1px, 1px);
+        }
+
+        .win-button:disabled {
+            color: #808080;
+            text-shadow: 1px 1px 0 #fff;
+            cursor: not-allowed;
+        }
+
+        /* タイトルバー */
+        .win-titlebar {
+            background: linear-gradient(90deg, #000080, #1084d0);
+            color: white;
+            font-weight: bold;
+            padding: 3px 6px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 13px;
+        }
+
+        .win-close-btn {
+            width: 16px;
+            height: 14px;
+            background: #c0c0c0;
+            color: #000;
+            border-style: solid;
+            border-width: 1px;
+            border-color: #ffffff #404040 #404040 #ffffff;
+            font-size: 10px;
+            line-height: 10px;
+            text-align: center;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* 点滅アニメーション */
+        @keyframes blink { 50% { opacity: 0; } }
+        .blink { animation: blink 1s steps(1) infinite; }
+
+        /* コード・テキストエリア */
+        textarea#code {
+            resize: vertical;
+            min-height: 320px;
+            background: #ffffff;
+            color: #000000;
+            font-family: "Consolas", "Courier New", "MS Gothic", monospace;
+            font-size: 14px;
+            line-height: 1.4;
+            tab-size: 4;
+            white-space: pre;
+            overflow-x: auto;
+        }
+
+        pre {
+            margin: 0;
+            white-space: pre-wrap;
+            word-break: break-all;
+            font-family: "Consolas", "Courier New", "MS Gothic", monospace;
+        }
+
+        /* カスタムスクロールバー (Win95風) */
+        ::-webkit-scrollbar { width: 16px; height: 16px; }
+        ::-webkit-scrollbar-track { background: #e0e0e0; }
+        ::-webkit-scrollbar-thumb {
+            background: #c0c0c0;
+            border-style: solid;
+            border-width: 2px;
+            border-color: #ffffff #404040 #404040 #ffffff;
+        }
+
+        /* 判定ステータス */
+        .result-ac { background: #c6efce; border: 2px solid #008000; color: #006000; }
+        .result-wa { background: #ffc7ce; border: 2px solid #800000; color: #800000; }
+        .result-error { background: #fff2cc; border: 2px solid #808000; color: #600000; }
+
+        .test-pass { color: #008000; font-weight: bold; }
+        .test-fail { color: #c00000; font-weight: bold; }
+        .test-box { background: #fff; border: 2px solid #808080; padding: 8px; }
+    </style>
+</head>
+
+
+<body>
+
+<div class="max-w-6xl mx-auto px-3 py-5">
+
+    <!-- =========================================================
+         SETUP
+         ========================================================= -->
+
+    <section id="setup-screen" class="hidden max-w-lg mx-auto mt-16">
+
+        <div class="win-panel bg-[#c0c0c0]">
+
+            <div class="win-titlebar">
+                IQ Programming Practice
+            </div>
+
+            <div class="bg-[#c0c0c0] p-6">
+
+                <div class="bg-white win-inset p-5">
+
+                    <h1 class="text-xl font-bold text-blue-900 mb-4">
+                        はじめに名前を設定してください。
+                    </h1>
+
+                    <p class="text-sm mb-5">
+                        この名前は問題の進捗管理に使用されます。
+                    </p>
+
+                    <label
+                        for="student-name"
+                        class="block text-sm font-bold mb-1"
+                    >
+                        名前
+                    </label>
+
+                    <input
+                        id="student-name"
+                        type="text"
+                        maxlength="50"
+                        autocomplete="name"
+                        placeholder="例: hoge"
+                        class="w-full px-2 py-2 bg-white win-inset focus:outline-none"
+                    >
+
+                    <button
+                        id="register-button"
+                        type="button"
+                        class="win-button w-full mt-4 px-4 py-2 font-bold"
+                    >
+                        登録する
+                    </button>
+
+                    <div
+                        id="setup-status"
+                        class="hidden mt-4 p-3 text-sm whitespace-pre-wrap"
+                    ></div>
+
+                    <div
+                        id="setup-error"
+                        class="mt-3 text-sm font-bold text-red-700 whitespace-pre-wrap"
+                    ></div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         PRACTICE
+         ========================================================= -->
+
+    <section id="practice-screen" class="hidden">
+
+        <!-- Header -->
+
+        <header class="win-panel bg-[#c0c0c0] mb-5">
+
+            <div class="win-titlebar flex items-center justify-between">
+
+                <span>
+                    IQ Programming Practice
+                </span>
+
+                <span id="student-name-display">
+                    [---]
+                </span>
+
+            </div>
+
+            <div class="p-4 bg-[#c0c0c0]">
+
+                <div class="bg-white win-inset p-4 text-center">
+
+                    <h1 class="text-2xl font-bold text-blue-900">
+                        IQ Programming Practice
+                    </h1>
+
+                    <p class="text-sm mt-2">
+                        プログラミング実習
+                    </p>
+
+                    <p class="blink text-sm font-bold text-red-700 mt-3">
+                        ★ 問題を解いてプログラミング能力を鍛えよう！ ★
+                    </p>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- Main -->
+
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-5">
+
+
+            <!-- =================================================
+                 SIDEBAR
+                 ================================================= -->
+
+            <aside class="lg:col-span-1">
+
+                <!-- Problems -->
+
+                <div class="win-panel bg-[#c0c0c0] mb-5">
+
+                    <div class="win-titlebar">
+                        問題一覧
+                    </div>
+
+                    <div class="p-3">
+
+                        <ul
+                            id="task-list"
+                            class="space-y-2"
+                        >
+                            <li class="text-sm">
+                                読み込み中...
+                            </li>
+                        </ul>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Progress -->
+
+                <div class="win-panel bg-[#c0c0c0] mb-5">
+
+                    <div class="win-titlebar">
+                        現在の進捗
+                    </div>
+
+                    <div
+                        id="sidebar-progress"
+                        class="p-4 bg-white"
+                    >
+                        読み込み中...
+                    </div>
+
+                </div>
+
+
+                <!-- Server -->
+
+                <div class="win-panel bg-[#c0c0c0]">
+
+                    <div class="win-titlebar">
+                        サーバー状態
+                    </div>
+
+                    <div class="p-4 bg-white text-sm">
+
+                        <div>
+                            状態:
+                            <span
+                                id="server-status"
+                                class="font-bold"
+                            >
+                                確認中...
+                            </span>
+                        </div>
+
+                        <button
+                            id="refresh-status"
+                            class="win-button px-3 py-1 mt-3 text-sm"
+                        >
+                            状態を更新
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </aside>
+
+
+            <!-- =================================================
+                 MAIN
+                 ================================================= -->
+
+            <main class="lg:col-span-3">
+
+
+                <!-- Problem -->
+
+                <section class="win-panel bg-[#c0c0c0] mb-5">
+
+                    <div class="win-titlebar">
+                        問題
+                    </div>
+
+                    <div class="p-4">
+
+                        <div class="bg-white win-inset p-5">
+
+                            <div
+                                id="problem-number"
+                                class="text-sm font-bold text-blue-800"
+                            >
+                                問題を選択してください
+                            </div>
+
+                            <h2
+                                id="problem-title"
+                                class="text-2xl font-bold text-blue-900 mt-2"
+                            >
+                                ---
+                            </h2>
+
+                            <hr class="my-4 border-gray-400">
+
+                            <div
+                                id="problem-text"
+                                class="text-sm leading-7 whitespace-pre-wrap"
+                            >
+                                左側の問題一覧から問題を選択してください。
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- Samples -->
+
+                <section
+                    id="sample-section"
+                    class="win-panel bg-[#c0c0c0] mb-5 hidden"
+                >
+
+                    <div class="win-titlebar">
+                        サンプルテストケース
+                    </div>
+
+                    <div class="p-4">
+
+                        <div
+                            id="sample-list"
+                            class="grid grid-cols-1 md:grid-cols-2 gap-4"
+                        ></div>
+
+                        <div class="mt-4 bg-yellow-50 border-2 border-yellow-600 p-3 text-sm">
+
+                            <strong class="text-red-700">
+                                ⚠ 注意
+                            </strong>
+
+                            <p class="mt-1">
+                                ここに表示されているテストケースは
+                                サンプルです。
+                            </p>
+
+                            <p>
+                                本番では別のテストケースも使用されます。
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- Code -->
+
+                <section class="win-panel bg-[#c0c0c0] mb-5">
+
+                    <div class="win-titlebar flex items-center justify-between">
+
+                        <span>
+                            プログラム入力
+                        </span>
+
+                        <div class="flex items-center gap-2">
+
+                            <label
+                                for="language"
+                                class="text-xs"
+                            >
+                                言語
+                            </label>
+
+                            <select
+                                id="language"
+                                class="bg-white text-black px-2 py-1 win-panel-small"
+                            >
+                                <option value="python">
+                                    Python
+                                </option>
+
+                                <option value="cpp">
+                                    C++
+                                </option>
+
+                                <option value="c">
+                                    C
+                                </option>
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                    <div class="p-4">
+
+                        <textarea
+                            id="code"
+                            spellcheck="false"
+                            class="w-full p-3 win-inset"
+                            placeholder="ここにプログラムを書いてください。"
+                        ></textarea>
+
+                        <div class="flex justify-between items-center mt-3">
+
+                            <span
+                                id="submit-status"
+                                class="text-sm font-bold"
+                            ></span>
+
+                            <button
+                                id="submit-button"
+                                type="button"
+                                class="win-button px-8 py-2 font-bold"
+                            >
+                                ▶ 実行する
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- Result -->
+
+                <section
+                    id="result-section"
+                    class="win-panel bg-[#c0c0c0] mb-5"
+                >
+
+                    <div class="win-titlebar">
+                        実行結果
+                    </div>
+
+                    <div class="p-4">
+
+                        <div
+                            id="result"
+                            class="bg-white win-inset p-4 text-sm"
+                        >
+                            まだプログラムを実行していません。
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- Progress -->
+
+                <section class="win-panel bg-[#c0c0c0] mb-5">
+
+                    <div class="win-titlebar">
+                        学習進捗
+                    </div>
+
+                    <div class="p-4">
+
+                        <div
+                            id="progress-content"
+                            class="bg-white win-inset p-4 text-sm"
+                        >
+                            読み込み中...
+                        </div>
+
+                    </div>
+
+                </section>
+
+            </main>
+
+        </div>
+
+
+        <!-- Footer -->
+
+        <footer class="text-center mt-6 mb-5">
+
+            <div class="inline-block win-panel bg-[#c0c0c0] px-5 py-2 text-xs">
+                IQ Programming Practice
+            </div>
+
+        </footer>
+
+    </section>
+
+</div>
+
+
+<script>
+
+"use strict";
+
+
+/* ============================================================
+ * Global State
+ * ============================================================ */
+
+let problems = {};
+let progress = {};
+let currentTaskId = null;
+
+
+/* ============================================================
+ * Utility
+ * ============================================================ */
+
+function escapeHTML(value) {
+
+    return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+}
+
+
+/* ============================================================
+ * API
+ *
+ * HTML → server.js
+ *
+ * GASへは直接アクセスしない。
+ * ============================================================ */
+
+async function api(url, options = {}) {
+
+    let response;
+
+    try {
+
+        response = await fetch(url, {
+            ...options,
+            headers: {
+                "Content-Type": "application/json",
+                ...(options.headers || {})
+            }
+        });
+
+    } catch (error) {
+
+        throw new Error(
+            "ローカルサーバーに接続できません。\n" +
+            "start.bash が起動しているか確認してください。\n\n" +
+            `詳細: ${error.message}`
+        );
+    }
+
+
+    const text = await response.text();
+
+    let data;
+
+    try {
+
+        data = JSON.parse(text);
+
+    } catch {
+
+        throw new Error(
+            `サーバーから不正な応答が返されました。\n\n${text}`
+        );
+    }
+
+
+    if (!response.ok || data.success === false) {
+
+        throw new Error(
+            data.error ||
+            data.message ||
+            `HTTP ${response.status}`
+        );
+    }
+
+
+    return data;
+}
+
+
+/* ============================================================
+ * GET JSON
+ * ============================================================ */
+
+async function getJSON(url) {
+
+    return api(url, {
+        method: "GET"
+    });
+
+}
+
+
+/* ============================================================
+ * Screen
+ * ============================================================ */
+
+function showSetupScreen() {
+
+    document
+        .getElementById("setup-screen")
+        .classList.remove("hidden");
+
+    document
+        .getElementById("practice-screen")
+        .classList.add("hidden");
+
+}
+
+
+function showPracticeScreen(name) {
+
+    document
+        .getElementById("setup-screen")
+        .classList.add("hidden");
+
+    document
+        .getElementById("practice-screen")
+        .classList.remove("hidden");
+
+    document
+        .getElementById("student-name-display")
+        .textContent = `[${name}]`;
+
+}
+
+
+/* ============================================================
+ * Setting
+ * ============================================================ */
+
+async function loadSetting() {
+
+    try {
+
+        const setting =
+            await getJSON("/api/setting");
+
+
+        /*
+         * server.jsが返す形式:
+         *
+         * {
+         *   configured: true,
+         *   student: {
+         *      name: "...",
+         *      id: "..."
+         *   }
+         * }
+         */
+
+        if (!setting.configured) {
+
+            showSetupScreen();
+
+            return;
+        }
+
+
+        const student =
+            setting.student || {};
+
+
+        if (!student.name) {
+
+            showSetupScreen();
+
+            return;
+        }
+
+
+        showPracticeScreen(
+            student.name
+        );
+
+
+        await initializePractice();
+
+
+    } catch (error) {
+
+        console.error(
+            "[SETTING ERROR]",
+            error
+        );
+
+
+        /*
+         * サーバー自体が動いていない場合、
+         * ここで「登録画面」を表示すると
+         * ユーザーには名前登録の問題に見えてしまう。
+         *
+         * したがって通信エラーを明示する。
+         */
+
+        showSetupScreen();
+
+
+        document
+            .getElementById("setup-error")
+            .textContent =
+                "ローカルサーバーとの通信に失敗しました。\n\n" +
+                error.message;
+
+    }
+
+}
+
+
+/* ============================================================
+ * Student Registration
+ * ============================================================ */
+
+async function registerStudent() {
+
+    const input =
+        document.getElementById("student-name");
+
+    const button =
+        document.getElementById("register-button");
+
+    const errorElement =
+        document.getElementById("setup-error");
+
+    const statusElement =
+        document.getElementById("setup-status");
+
+
+    const name =
+        input.value.trim();
+
+
+    errorElement.textContent = "";
+
+    statusElement.className =
+        "hidden mt-4 p-3 text-sm whitespace-pre-wrap";
+
+
+    if (!name) {
+
+        errorElement.textContent =
+            "名前を入力してください。";
+
+        input.focus();
+
+        return;
+    }
+
+
+    button.disabled = true;
+
+    button.textContent =
+        "登録中...";
+
+
+    statusElement.classList.remove("hidden");
+
+    statusElement.classList.add(
+        "bg-blue-50",
+        "border-2",
+        "border-blue-500"
+    );
+
+    statusElement.textContent =
+        "サーバーに登録しています...";
+
+
+    try {
+
+        /*
+         * HTML
+         * ↓
+         * server.js
+         * ↓
+         * GAS
+         */
+
+        const result =
+            await api(
+                "/api/makeid",
+                {
+                    method: "POST",
+
+                    body: JSON.stringify({
+                        name: name
+                    })
+                }
+            );
+
+
+        console.log(
+            "[REGISTER RESULT]",
+            result
+        );
+
+
+        if (!result.success) {
+
+            throw new Error(
+                result.error ||
+                result.message ||
+                "登録に失敗しました。"
+            );
+        }
+
+
+        /*
+         * server.jsから返された
+         * 学生情報を使用する。
+         */
+
+        const student =
+            result.student || {};
+
+
+        const studentName =
+            student.name ||
+            result.name ||
+            name;
+
+
+        statusElement.className =
+            "mt-4 p-3 text-sm bg-green-100 border-2 border-green-600 text-green-800";
+
+        statusElement.textContent =
+            "登録が完了しました。";
+
+
+        showPracticeScreen(
+            studentName
+        );
+
+
+        await initializePractice();
+
+
+    } catch (error) {
+
+        console.error(
+            "[REGISTER ERROR]",
+            error
+        );
+
+
+        statusElement.className =
+            "mt-4 p-3 text-sm result-error whitespace-pre-wrap";
+
+
+        statusElement.textContent =
+            "登録に失敗しました。\n\n" +
+            error.message;
+
+
+    } finally {
+
+        button.disabled = false;
+
+        button.textContent =
+            "登録する";
+
+    }
+
+}
+
+
+/* ============================================================
+ * Problems
+ * ============================================================ */
+
+async function loadProblems() {
+
+    const list =
+        document.getElementById("task-list");
+
+
+    try {
+
+        const data =
+            await getJSON("/api/problems");
+
+
+        problems =
+            data.tasks || {};
+
+
+        renderTaskList();
+
+
+        const taskIds =
+            Object.keys(problems)
+                .sort(
+                    (a, b) =>
+                        Number(a) - Number(b)
+                );
+
+
+        if (
+            taskIds.length > 0 &&
+            currentTaskId === null
+        ) {
+
+            selectTask(taskIds[0]);
+
+        }
+
+
+    } catch (error) {
+
+        console.error(
+            "[PROBLEMS ERROR]",
+            error
+        );
+
+
+        list.innerHTML = `
+            <li class="text-red-700 font-bold whitespace-pre-wrap">
+                問題を読み込めませんでした。
+
+                ${escapeHTML(error.message)}
+            </li>
+        `;
+
+    }
+
+}
+
+
+/* ============================================================
+ * Task List
+ * ============================================================ */
+
+function renderTaskList() {
+
+    const list =
+        document.getElementById("task-list");
+
+
+    list.innerHTML = "";
+
+
+    const taskIds =
+        Object.keys(problems)
+            .sort(
+                (a, b) =>
+                    Number(a) - Number(b)
+            );
+
+
+    if (taskIds.length === 0) {
+
+        list.innerHTML = `
+            <li class="text-gray-600">
+                問題がありません。
+            </li>
+        `;
+
+        return;
+    }
+
+
+    for (const taskId of taskIds) {
+
+        const problem =
+            problems[taskId];
+
+
+        const status =
+            progress.tasks?.[taskId]?.status;
+
+
+        const isAC =
+            status === "AC";
+
+
+        const isCurrent =
+            String(taskId) ===
+            String(currentTaskId);
+
+
+        const button =
+            document.createElement("button");
+
+
+        button.type =
+            "button";
+
+
+        button.className =
+            "w-full text-left px-3 py-2 text-sm font-bold " +
+            "win-button flex items-center justify-between";
+
+
+        if (isCurrent) {
+
+            button.style.background =
+                "#000080";
+
+            button.style.color =
+                "#ffffff";
+
+        }
+
+
+        const title =
+            escapeHTML(
+                problem.title || "無題"
+            );
+
+
+        button.innerHTML = `
+            <span class="truncate mr-2">
+                ${escapeHTML(taskId)}. ${title}
+            </span>
+
+            <span
+                class="ml-2 shrink-0 ${
+                    isAC
+                        ? "text-green-600"
+                        : "text-gray-500"
+                }"
+                style="${
+                    isCurrent && isAC
+                        ? "color:#00ff00"
+                        : ""
+                }"
+            >
+                ${isAC ? "AC" : "-"}
+            </span>
+        `;
+
+
+        button.addEventListener(
+            "click",
+            () => selectTask(taskId)
+        );
+
+
+        const li =
+            document.createElement("li");
+
+
+        li.appendChild(button);
+
+        list.appendChild(li);
+
+    }
+
+}
+
+
+/* ============================================================
+ * Select Problem
+ * ============================================================ */
+
+function selectTask(taskId) {
+
+    taskId =
+        String(taskId);
+
+
+    const problem =
+        problems[taskId];
+
+
+    if (!problem) {
+
+        return;
+    }
+
+
+    currentTaskId =
+        taskId;
+
+
+    document
+        .getElementById("problem-number")
+        .textContent =
+            `問題 ${taskId}`;
+
+
+    document
+        .getElementById("problem-title")
+        .textContent =
+            problem.title || "無題";
+
+
+    document
+        .getElementById("problem-text")
+        .textContent =
+            problem.text || "";
+
+
+    renderSamples(
+        problem.samples || []
+    );
+
+
+    renderTaskList();
+
+    clearResult();
+
+
+    /*
+     * 問題を変更したらコードも変更する。
+     *
+     * 誤って前の問題のコードを送信するのを防ぐ。
+     */
+
+    const code =
+        document.getElementById("code");
+
+
+    code.value =
+        problem.template || "";
+
+
+    updatePlaceholder();
+
+}
+
+
+/* ============================================================
+ * Sample Test Cases
+ * ============================================================ */
+
+function renderSamples(samples) {
+
+    const section =
+        document.getElementById(
+            "sample-section"
+        );
+
+
+    const list =
+        document.getElementById(
+            "sample-list"
+        );
+
+
+    list.innerHTML = "";
+
+
+    if (
+        !Array.isArray(samples) ||
+        samples.length === 0
+    ) {
+
+        section.classList.add("hidden");
+
+        return;
+    }
+
+
+    section.classList.remove("hidden");
+
+
+    samples.forEach(
+        (sample, index) => {
+
+            const box =
+                document.createElement("div");
+
+
+            box.className =
+                "test-box";
+
+
+            const input =
+                escapeHTML(
+                    sample.input || ""
+                );
+
+
+            const output =
+                escapeHTML(
+                    sample.output || ""
+                );
+
+
+            box.innerHTML = `
+
+                <div class="font-bold text-blue-900 mb-2">
+                    Sample ${index + 1}
+                </div>
+
+                <div class="text-xs font-bold mb-1">
+                    入力
+                </div>
+
+                <pre class="bg-white win-inset p-2 text-xs mb-3">${input}</pre>
+
+                <div class="text-xs font-bold mb-1">
+                    出力
+                </div>
+
+                <pre class="bg-white win-inset p-2 text-xs">${output}</pre>
+
+            `;
+
+
+            list.appendChild(box);
+
+        }
+    );
+
+}
+
+
+/* ============================================================
+ * Progress
+ * ============================================================ */
+
+async function loadProgress() {
+
+    try {
+
+        progress =
+            await getJSON("/api/progress");
+
+
+        renderProgress();
+
+        renderTaskList();
+
+
+    } catch (error) {
+
+        console.error(
+            "[PROGRESS ERROR]",
+            error
+        );
+
+
+        document
+            .getElementById(
+                "progress-content"
+            )
+            .textContent =
+                "進捗情報を読み込めませんでした。\n" +
+                error.message;
+
+    }
+
+}
+
+
+/* ============================================================
+ * Progress Renderer
+ * ============================================================ */
+
+function renderProgress() {
+
+    const content =
+        document.getElementById(
+            "progress-content"
+        );
+
+
+    const sidebar =
+        document.getElementById(
+            "sidebar-progress"
+        );
+
+
+    const taskIds =
+        Object.keys(problems);
+
+
+    const total =
+        taskIds.length;
+
+
+    const acCount =
+        taskIds.filter(
+            id =>
+                progress.tasks?.[id]?.status === "AC"
+        ).length;
+
+
+    if (total === 0) {
+
+        content.textContent =
+            "問題がありません。";
+
+        sidebar.textContent =
+            "問題がありません。";
+
+        return;
+    }
+
+
+    const percentage =
+        Math.round(
+            acCount / total * 100
+        );
+
+
+    content.innerHTML = `
+
+        <div class="font-bold mb-3">
+            解いた問題数:
+            ${acCount} / ${total}
+            (${percentage}%)
+        </div>
+
+        <div
+            class="w-full h-6 bg-gray-300 win-inset p-1"
+        >
+
+            <div
+                class="h-full bg-blue-800"
+                style="width:${percentage}%"
+            ></div>
+
+        </div>
+
+    `;
+
+
+    sidebar.innerHTML = `
+
+        <div class="text-2xl font-bold text-blue-900">
+            ${acCount}
+            <span class="text-sm text-gray-600">
+                / ${total} 問
+            </span>
+        </div>
+
+        <div class="text-sm mt-1">
+            正解率:
+            <strong>
+                ${percentage}%
+            </strong>
+        </div>
+
+    `;
+
+}
+
+
+/* ============================================================
+ * Submit
+ * ============================================================ */
+
+async function submitCode() {
+
+    if (!currentTaskId) {
+
+        showError(
+            "問題が選択されていません。"
+        );
+
+        return;
+    }
+
+
+    const code =
+        document.getElementById(
+            "code"
+        ).value;
+
+
+    const language =
+        document.getElementById(
+            "language"
+        ).value;
+
+
+    if (!code.trim()) {
+
+        showError(
+            "プログラムを入力してください。"
+        );
+
+        return;
+    }
+
+
+    const button =
+        document.getElementById(
+            "submit-button"
+        );
+
+
+    const status =
+        document.getElementById(
+            "submit-status"
+        );
+
+
+    button.disabled = true;
+
+    button.textContent =
+        "実行中...";
+
+
+    status.textContent =
+        "サーバーでプログラムを実行しています...";
+
+
+    clearResult();
+
+
+    try {
+
+        const result =
+            await api(
+                "/api/submit",
+                {
+                    method: "POST",
+
+                    body: JSON.stringify({
+
+                        task_id:
+                            Number(currentTaskId),
+
+                        language:
+                            language,
+
+                        code:
+                            code
+
+                    })
+                }
+            );
+
+
+        console.log(
+            "[SUBMIT RESULT]",
+            result
+        );
+
+
+        showSubmissionResult(
+            result
+        );
+
+
+        if (
+            result.type === "AC"
+        ) {
+
+            await loadProgress();
+
+        }
+
+
+    } catch (error) {
+
+        console.error(
+            "[SUBMIT ERROR]",
+            error
+        );
+
+
+        showError(
+            error.message
+        );
+
+
+    } finally {
+
+        button.disabled = false;
+
+        button.textContent =
+            "▶ 実行する";
+
+        status.textContent =
+            "";
+
+    }
+
+}
+
+
+/* ============================================================
+ * Submission Result
+ * ============================================================ */
+
+function showSubmissionResult(result) {
+
+    const type =
+        String(
+            result.type || "ERROR"
+        ).toUpperCase();
+
+
+    if (type === "AC") {
+
+        showResult(
+            "AC",
+            "AC — 正解です！",
+            result.message ||
+                "すべてのテストケースに成功しました。"
+        );
+
+        return;
+    }
+
+
+    if (type === "WA") {
+
+        /*
+         * server.jsが返すテスト結果を
+         * できるだけそのまま表示する。
+         */
+
+        renderWAResult(result);
+
+        return;
+    }
+
+
+    if (type === "CE") {
+
+        showResult(
+            "ERROR",
+            "CE — コンパイルエラー",
+            result.summary ||
+            result.error_summary ||
+            result.stderr ||
+            "コンパイルに失敗しました。"
+        );
+
+        return;
+    }
+
+
+    if (type === "RE") {
+
+        showResult(
+            "ERROR",
+            "RE — 実行時エラー",
+            result.summary ||
+            result.error_summary ||
+            result.stderr ||
+            "プログラム実行中にエラーが発生しました。"
+        );
+
+        return;
+    }
+
+
+    if (type === "TLE") {
+
+        showResult(
+            "ERROR",
+            "TLE — 実行時間制限超過",
+            result.message ||
+            "プログラムの実行時間が制限を超えました。"
+        );
+
+        return;
+    }
+
+
+    showResult(
+        "ERROR",
+        result.message ||
+        "実行中にエラーが発生しました。",
+        result.summary ||
+        result.stderr ||
+        ""
+    );
+
+}
+
+
+/* ============================================================
+ * WA Result
+ *
+ * tests.json:
+ *
+ * [
+ *   [
+ *     "player = student.Player('Alice')",
+ *     "player.damage(30)",
+ *     "@ player.hp == 70"
+ *   ],
+ *   ...
+ * ]
+ *
+ * server.js側で@をprint()へ変換し、
+ * True / Falseを判定して返す。
+ * ============================================================ */
+
+function renderWAResult(result) {
+
+    const container =
+        document.getElementById(
+            "result"
+        );
+
+
+    container.className =
+        "result-wa p-4";
+
+
+    const tests =
+        Array.isArray(result.tests)
+            ? result.tests
+            : [];
+
+
+    let html = `
+
+        <div class="text-xl font-bold mb-3">
+            WA — 不正解です
+        </div>
+
+    `;
+
+
+    if (result.summary) {
+
+        html += `
+
+            <div class="bg-white win-inset p-3 mb-4">
+                <strong>
+                    ${escapeHTML(result.summary)}
+                </strong>
+            </div>
+
+        `;
+
+    }
+
+
+    if (tests.length > 0) {
+
+        html += `
+
+            <div class="font-bold mb-2">
+                テスト結果
+            </div>
+
+        `;
+
+
+        tests.forEach(
+            (test, index) => {
+
+                const passed =
+                    test.passed === true;
+
+
+                html += `
+
+                    <div class="bg-white border-2 border-gray-500 p-3 mb-3">
+
+                        <div class="font-bold mb-2">
+                            Test ${index + 1}:
+                            <span class="${
+                                passed
+                                    ? "test-pass"
+                                    : "test-fail"
+                            }">
+                                ${
+                                    passed
+                                        ? "True"
+                                        : "False"
+                                }
+                            </span>
+                        </div>
+
+                        <pre class="bg-gray-100 win-inset p-2 text-xs">${escapeHTML(
+                            test.output ||
+                            test.code ||
+                            ""
+                        )}</pre>
+
+                    </div>
+
+                `;
+
+            }
+        );
+
+    }
+
+
+    /*
+     * server.jsが従来形式の
+     * input / expected / actual
+     * を返している場合にも対応する。
+     */
+
+    if (
+        result.input !== undefined ||
+        result.expected !== undefined ||
+        result.actual !== undefined
+    ) {
+
+        html += `
+
+            <div class="bg-white border-2 border-gray-500 p-3">
+
+                <div class="font-bold mb-2">
+                    テストケース
+                </div>
+
+                <div class="text-xs font-bold">
+                    入力
+                </div>
+
+                <pre class="win-inset bg-gray-100 p-2 mb-2">${escapeHTML(result.input || "")}</pre>
+
+                <div class="text-xs font-bold">
+                    期待される結果
+                </div>
+
+                <pre class="win-inset bg-gray-100 p-2 mb-2">${escapeHTML(result.expected || "")}</pre>
+
+                <div class="text-xs font-bold">
+                    実際の結果
+                </div>
+
+                <pre class="win-inset bg-gray-100 p-2">${escapeHTML(result.actual || "")}</pre>
+
+            </div>
+
+        `;
+
+    }
+
+
+    container.innerHTML =
+        html;
+
+
+    document
+        .getElementById(
+            "result-section"
+        )
+        .scrollIntoView({
+            behavior: "smooth",
+            block: "nearest"
+        });
+
+}
+
+
+/* ============================================================
+ * Generic Result
+ * ============================================================ */
+
+function showResult(
+    type,
+    title,
+    detail
+) {
+
+    const container =
+        document.getElementById(
+            "result"
+        );
+
+
+    let className =
+        "result-error p-4";
+
+
+    if (type === "AC") {
+
+        className =
+            "result-ac p-4";
+
+    }
+
+
+    if (type === "WA") {
+
+        className =
+            "result-wa p-4";
+
+    }
+
+
+    container.className =
+        className;
+
+
+    container.innerHTML = `
+
+        <div class="text-xl font-bold mb-3">
+            ${escapeHTML(title)}
+        </div>
+
+        ${
+            detail
+                ? `
+                    <pre class="bg-white win-inset p-3 text-xs">${escapeHTML(detail)}</pre>
+                  `
+                : ""
+        }
+
+    `;
+
+
+    document
+        .getElementById(
+            "result-section"
+        )
+        .scrollIntoView({
+            behavior: "smooth",
+            block: "nearest"
+        });
+
+}
+
+
+function showError(message) {
+
+    showResult(
+        "ERROR",
+        "実行中にエラーが発生しました",
+        message
+    );
+
+}
+
+
+/* ============================================================
+ * Clear Result
+ * ============================================================ */
+
+function clearResult() {
+
+    const result =
+        document.getElementById(
+            "result"
+        );
+
+
+    result.className =
+        "bg-white win-inset p-4 text-sm";
+
+
+    result.textContent =
+        "まだプログラムを実行していません。";
+
+}
+
+
+/* ============================================================
+ * Server Status
+ * ============================================================ */
+
+async function loadServerStatus() {
+
+    const element =
+        document.getElementById(
+            "server-status"
+        );
+
+
+    try {
+
+        /*
+         * server.js側に
+         *
+         * GET /api/status
+         *
+         * を用意する。
+         */
+
+        const result =
+            await getJSON(
+                "/api/status"
+            );
+
+
+        if (result.success !== false) {
+
+            element.textContent =
+                "ONLINE";
+
+            element.style.color =
+                "#008000";
+
+        } else {
+
+            element.textContent =
+                "ERROR";
+
+            element.style.color =
+                "#c00000";
+
+        }
+
+
+    } catch (error) {
+
+        element.textContent =
+            "OFFLINE";
+
+        element.style.color =
+            "#c00000";
+
+        console.error(
+            "[STATUS ERROR]",
+            error
+        );
+
+    }
+
+}
+
+
+/* ============================================================
+ * Placeholder
+ * ============================================================ */
+
+function updatePlaceholder() {
+
+    const language =
+        document.getElementById(
+            "language"
+        ).value;
+
+
+    const code =
+        document.getElementById(
+            "code"
+        );
+
+
+    if (language === "python") {
+
+        code.placeholder =
+`# Python
+
+# 問題文に従って実装してください。
+`;
+
+    } else if (language === "cpp") {
+
+        code.placeholder =
+`#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+
+    // ここにプログラムを書いてください。
+
+    return 0;
+}
+`;
+
+    } else if (language === "c") {
+
+        code.placeholder =
+`#include <stdio.h>
+
+int main(void) {
+
+    /* ここにプログラムを書いてください。 */
+
+    return 0;
+}
+`;
+
+    }
+
+}
+
+
+/* ============================================================
+ * Initialize
+ * ============================================================ */
+
+async function initializePractice() {
+
+    await Promise.all([
+        loadProblems(),
+        loadProgress(),
+        loadServerStatus()
+    ]);
+
+}
+
+
+/* ============================================================
+ * Event Listeners
+ * ============================================================ */
+
+document
+    .getElementById("register-button")
+    .addEventListener(
+        "click",
+        registerStudent
+    );
+
+
+document
+    .getElementById("submit-button")
+    .addEventListener(
+        "click",
+        submitCode
+    );
+
+
+document
+    .getElementById("refresh-status")
+    .addEventListener(
+        "click",
+        loadServerStatus
+    );
+
+
+document
+    .getElementById("language")
+    .addEventListener(
+        "change",
+        updatePlaceholder
+    );
+
+
+document
+    .getElementById("student-name")
+    .addEventListener(
+        "keydown",
+        event => {
+
+            if (event.key === "Enter") {
+
+                registerStudent();
+
+            }
+
+        }
+    );
+
+
+/* ============================================================
+ * Startup
+ * ============================================================ */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+        updatePlaceholder();
+
+        loadSetting();
+
+    }
+);
+
+</script>
+
+</body>
+</html>
