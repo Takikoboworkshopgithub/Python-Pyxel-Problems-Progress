@@ -43,7 +43,7 @@ Gitを使用してGitHubからリポジトリを取得します。
 
 ```bash
 git clone https://github.com/Takikoboworkshopgithub/Python-Pyxel-Problems-Progress.git
-
+```
 ---
 
 ## 1.3 依存パッケージのインストール
