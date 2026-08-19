@@ -11,6 +11,7 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 cd "$ROOT_DIR"
 
+
 # ------------------------------------------------------------
 # Color
 # ------------------------------------------------------------
@@ -88,6 +89,7 @@ if command -v node >/dev/null 2>&1 && \
    command -v npm >/dev/null 2>&1; then
 
     NODE_VERSION="$(node --version)"
+
     info "Node.js: $NODE_VERSION"
     info "npm: $(npm --version)"
 
@@ -106,6 +108,18 @@ else
     if [ "$OS" = "WSL" ]; then
 
         # ----------------------------------------------------
+        # sudo check
+        # ----------------------------------------------------
+
+        if ! command -v sudo >/dev/null 2>&1; then
+            error "sudo が見つかりません。"
+            echo
+            echo "sudo を利用できる環境を用意してください。"
+            exit 1
+        fi
+
+
+        # ----------------------------------------------------
         # curl check
         # ----------------------------------------------------
 
@@ -115,17 +129,11 @@ else
             info "curl をインストールします。"
             echo
 
-            if ! command -v sudo >/dev/null 2>&1; then
-                error "sudo が見つかりません。"
-                echo
-                echo "sudo を利用できる環境を用意してください。"
-                exit 1
-            fi
-
             sudo apt-get update
             sudo apt-get install -y curl
 
         fi
+
 
         # ----------------------------------------------------
         # Node.js install
@@ -161,6 +169,7 @@ else
             exit 1
 
         fi
+
 
         # ----------------------------------------------------
         # Node.js install
@@ -204,6 +213,53 @@ fi
 
 
 # ------------------------------------------------------------
+# Python 3 check
+# ------------------------------------------------------------
+
+PYTHON_COMMAND=""
+
+if command -v python3 >/dev/null 2>&1; then
+
+    PYTHON_COMMAND="python3"
+
+elif command -v python >/dev/null 2>&1 && \
+     python --version 2>&1 | grep -q "Python 3"; then
+
+    PYTHON_COMMAND="python"
+
+fi
+
+
+if [ -z "$PYTHON_COMMAND" ]; then
+
+    error "Python 3 が見つかりません。"
+    echo
+
+    if [ "$OS" = "WSL" ]; then
+
+        echo "Ubuntu (WSL) の場合:"
+        echo
+        echo "  sudo apt update"
+        echo "  sudo apt install python3"
+
+    elif [ "$OS" = "macOS" ]; then
+
+        echo "Python 3 をインストールしてください。"
+        echo
+        echo "  https://www.python.org/downloads/"
+
+    fi
+
+    exit 1
+
+fi
+
+PYTHON_VERSION="$($PYTHON_COMMAND --version 2>&1)"
+
+info "Python: $PYTHON_VERSION"
+
+
+# ------------------------------------------------------------
 # Required files
 # ------------------------------------------------------------
 
@@ -224,6 +280,8 @@ for file in "${REQUIRED_FILES[@]}"; do
 
 done
 
+success "必要なファイルを確認しました。"
+
 
 # ------------------------------------------------------------
 # npm dependencies
@@ -232,8 +290,20 @@ done
 if [ ! -d "node_modules" ]; then
 
     info "Node.js の依存パッケージをインストールします。"
+    echo
 
-    npm install
+    if [ -f "package-lock.json" ]; then
+
+        npm ci
+
+    else
+
+        npm install
+
+    fi
+
+    echo
+    success "Node.js の依存パッケージをインストールしました。"
 
 else
 
