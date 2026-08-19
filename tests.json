@@ -3,7 +3,8 @@
     "12": {
       "tests": [
         [
-          "@ student.add(1, 2) == 3"
+          "@ student.add(1, 2) == 3",
+          "@ student.add(1, 3) == 4"
         ],
         [
           "@ student.add(10, 20) == 30"

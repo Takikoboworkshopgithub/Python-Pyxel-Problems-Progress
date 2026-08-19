@@ -1664,22 +1664,49 @@ function showSubmissionResult(result) {
 /* ============================================================
  * WA Result
  *
- * tests.json:
+ * WAの場合は、実行結果ではなく
+ * tests.json に定義されたテストケースをそのまま表示する。
  *
- * [
+ * 例:
+ *
+ * tests.json
+ *
+ * "tests": [
  *   [
- *     "player = student.Player('Alice')",
- *     "player.damage(30)",
- *     "@ player.hp == 70"
+ *     "@ student.add(1, 2) == 3"
  *   ],
- *   ...
+ *   [
+ *     "@ student.add(10, 20) == 30"
+ *   ]
  * ]
  *
- * server.js側で@をprint()へ変換し、
- * True / Falseを判定して返す。
+ * ↓
+ *
+ * Test 1
+ * @ student.add(1, 2) == 3
+ *
+ * Test 2
+ * @ student.add(10, 20) == 30
+ *
  * ============================================================ */
 
 function renderWAResult(result) {
+
+    console.log(
+        "[DEBUG] WA tests JSON:",
+        JSON.stringify(result.tests, null, 2)
+    );
+
+    console.log(
+        "[DEBUG] WA result:",
+        result
+    );
+
+    console.log(
+        "[DEBUG] WA tests:",
+        result.tests
+    );
+
 
     const container =
         document.getElementById(
@@ -1703,22 +1730,11 @@ function renderWAResult(result) {
             WA — 不正解です
         </div>
 
+        <div class="bg-white win-inset p-3 mb-4">
+            テストケースを確認してください。
+        </div>
+
     `;
-
-
-    if (result.summary) {
-
-        html += `
-
-            <div class="bg-white win-inset p-3 mb-4">
-                <strong>
-                    ${escapeHTML(result.summary)}
-                </strong>
-            </div>
-
-        `;
-
-    }
 
 
     if (tests.length > 0) {
@@ -1726,7 +1742,7 @@ function renderWAResult(result) {
         html += `
 
             <div class="font-bold mb-2">
-                テスト結果
+                テストケース
             </div>
 
         `;
@@ -1735,83 +1751,96 @@ function renderWAResult(result) {
         tests.forEach(
             (test, index) => {
 
-                const passed =
-                    test.passed === true;
+                const results =
+                    Array.isArray(test.results)
+                        ? test.results
+                        : [];
 
 
-                html += `
+                if (results.length > 0) {
 
-                    <div class="bg-white border-2 border-gray-500 p-3 mb-3">
+                    results.forEach(
+                        (item) => {
 
-                        <div class="font-bold mb-2">
-                            Test ${index + 1}:
-                            <span class="${
-                                passed
-                                    ? "test-pass"
-                                    : "test-fail"
-                            }">
-                                ${
-                                    passed
-                                        ? "True"
-                                        : "False"
-                                }
-                            </span>
+                            let code =
+                                String(
+                                    item.code ?? ""
+                                );
+
+
+                            /*
+                             * 表示時だけ student. を削除する。
+                             *
+                             * 例:
+                             *
+                             * student.add(1, 2)
+                             * ↓
+                             * add(1, 2)
+                             *
+                             * student.Player(...)
+                             * ↓
+                             * Player(...)
+                             *
+                             * student.foo.bar()
+                             * ↓
+                             * foo.bar()
+                             */
+
+                            code =
+                                code.replace(
+                                    /\bstudent\./g,
+                                    ""
+                                );
+
+
+                            html += `
+
+                                <div class="bg-white border-2 border-gray-500 p-3 mb-3">
+
+                                    <div class="font-bold mb-2">
+                                        Test ${index + 1}
+                                    </div>
+
+                                    <pre class="bg-gray-100 win-inset p-3 text-xs overflow-x-auto">${escapeHTML(
+                                        code
+                                    )}</pre>
+
+                                </div>
+
+                            `;
+
+                        }
+                    );
+
+                } else {
+
+                    html += `
+
+                        <div class="bg-white border-2 border-gray-500 p-3 mb-3">
+
+                            <div class="font-bold mb-2">
+                                Test ${index + 1}
+                            </div>
+
+                            <div class="text-sm">
+                                テストケースを取得できませんでした。
+                            </div>
+
                         </div>
 
-                        <pre class="bg-gray-100 win-inset p-2 text-xs">${escapeHTML(
-                            test.output ||
-                            test.code ||
-                            ""
-                        )}</pre>
+                    `;
 
-                    </div>
-
-                `;
+                }
 
             }
         );
 
-    }
-
-
-    /*
-     * server.jsが従来形式の
-     * input / expected / actual
-     * を返している場合にも対応する。
-     */
-
-    if (
-        result.input !== undefined ||
-        result.expected !== undefined ||
-        result.actual !== undefined
-    ) {
+    } else {
 
         html += `
 
             <div class="bg-white border-2 border-gray-500 p-3">
-
-                <div class="font-bold mb-2">
-                    テストケース
-                </div>
-
-                <div class="text-xs font-bold">
-                    入力
-                </div>
-
-                <pre class="win-inset bg-gray-100 p-2 mb-2">${escapeHTML(result.input || "")}</pre>
-
-                <div class="text-xs font-bold">
-                    期待される結果
-                </div>
-
-                <pre class="win-inset bg-gray-100 p-2 mb-2">${escapeHTML(result.expected || "")}</pre>
-
-                <div class="text-xs font-bold">
-                    実際の結果
-                </div>
-
-                <pre class="win-inset bg-gray-100 p-2">${escapeHTML(result.actual || "")}</pre>
-
+                テストケースがありません。
             </div>
 
         `;
@@ -1833,7 +1862,6 @@ function renderWAResult(result) {
         });
 
 }
-
 
 /* ============================================================
  * Generic Result
