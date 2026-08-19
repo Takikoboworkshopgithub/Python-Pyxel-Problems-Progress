@@ -2,11 +2,5 @@
   "student": {
     "name": "hoge",
     "id": "e88e64fb-c49f-4c88-870f-bba814fc0895"
-  },
-  "tasks": {
-    "12": {
-      "status": "AC",
-      "updated_at": "2026-08-19T08:14:58.884Z"
-    }
   }
 }

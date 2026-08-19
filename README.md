@@ -35,14 +35,14 @@ python3 --version
 
 ---
 
-## 1.2 ダウンロード
+## 1.2 リポジトリの取得
 
-GitHubからリポジトリを取得します。
+Gitを使用してGitHubからリポジトリを取得します。
+
+以下のコマンドを実行してください。
 
 ```bash
-git clone <リポジトリURL>
-cd iq
-```
+git clone https://github.com/Takikoboworkshopgithub/Python-Pyxel-Problems-Progress.git
 
 ---
 
