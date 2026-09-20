@@ -511,13 +511,16 @@ function summarizePythonError(
         );
     }
 
-    if (
-        text.includes("AttributeError")
-    ) {
-        return (
-            "存在しない属性・メソッドを使用しています。"
-        );
-    }
+if (
+    text.includes("AttributeError")
+) {
+    console.log("Python stderr:");
+    console.log(text);
+
+    return (
+        "存在しない属性・メソッドを使用しています。"
+    );
+}
 
     if (
         text.includes("TypeError")

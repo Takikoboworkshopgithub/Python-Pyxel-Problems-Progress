@@ -1,146 +1,566 @@
 {
   "tasks": {
-    "11": {
-      "title": "Hello World",
-      "text": "「Hello, World!」と出力してください。",
-      "samples": [
-        {
-          "input": "",
-          "output": "Hello, World!"
-        }
-      ]
+
+
+"11": {
+    "title": "Two Adder",
+    "text": "二つの整数を受け取り、その和を返すadd関数を実装してください。",
+    "function": "add",
+    "language": [
+      "python"
+    ],
+    "samples": [
+      {
+        "input": "add(1, 2)",
+        "output": "3"
+      },
+      {
+        "input": "add(10, 20)",
+        "output": "30"
+      },
+      {
+        "input": "add(-5, 8)",
+        "output": "3"
+      }
+    ]
+  },
+
+  "12": {
+    "title": "Larger",
+    "text": "二つの整数を受け取り、そのうち大きいほうの値を返すlarger関数を実装してください。",
+    "function": "larger",
+    "language": [
+      "python"
+    ],
+    "samples": [
+      {
+        "input": "larger(3, 5)",
+        "output": "5"
+      },
+      {
+        "input": "larger(10, 2)",
+        "output": "10"
+      },
+      {
+        "input": "larger(7, 7)",
+        "output": "7"
+      }
+    ]
+  },
+
+  "13": {
+    "title": "Largest",
+    "text": "整数のリストを受け取り、その中で最も大きい数を返すlargest関数を実装してください。",
+    "function": "largest",
+    "language": [
+      "python"
+    ],
+    "samples": [
+      {
+        "input": "largest([1, 5, 3, 2, 4])",
+        "output": "5"
+      },
+      {
+        "input": "largest([-10, -3, -7, -1])",
+        "output": "-1"
+      },
+      {
+        "input": "largest([8])",
+        "output": "8"
+      }
+    ]
+  },
+
+  "14": {
+    "title": "List Sum",
+    "text": "整数のリストを受け取り、そのすべての要素の合計を返すlist_sum関数を実装してください。",
+    "function": "list_sum",
+    "language": [
+      "python"
+    ],
+    "samples": [
+      {
+        "input": "list_sum([1, 2, 3, 4, 5])",
+        "output": "15"
+      },
+      {
+        "input": "list_sum([10, 20, 30])",
+        "output": "60"
+      },
+      {
+        "input": "list_sum([-5, 10, -2])",
+        "output": "3"
+      }
+    ]
+  },
+
+  "15": {
+    "title": "Square Numbers",
+    "text": "整数iを受け取り、1からiまでの整数をそれぞれ2乗したリストを返すsquare_num関数を実装してください。例えばiが5なら、[1, 4, 9, 16, 25]を返します。",
+    "function": "square_num",
+    "language": [
+      "python"
+    ],
+    "samples": [
+      {
+        "input": "square_num(5)",
+        "output": "[1, 4, 9, 16, 25]"
+      },
+      {
+        "input": "square_num(3)",
+        "output": "[1, 4, 9]"
+      },
+      {
+        "input": "square_num(1)",
+        "output": "[1]"
+      }
+    ]
+  },
+
+  "16": {
+    "title": "Contains",
+    "text": "整数のリストaと整数xを受け取り、aの中にxが含まれていればTrue、含まれていなければFalseを返すcontains関数を実装してください。所属検査inを使ってください。",
+    "function": "contains",
+    "language": [
+      "python"
+    ],
+    "samples": [
+      {
+        "input": "contains([1, 2, 3, 4, 5], 3)",
+        "output": "True"
+      },
+      {
+        "input": "contains([10, 20, 30, 40], 5)",
+        "output": "False"
+      },
+      {
+        "input": "contains([7, 7, 7, 7, 7], 7)",
+        "output": "True"
+      }
+    ]
+  },
+
+"21": {
+  "title": "Create Player",
+  "text": "Player(\"Chris\", 100, 1)のように、名前・HP・レベルを設定できるPlayerクラスを作成してください。",
+  "class": "Player",
+  "language": [
+    "python"
+  ],
+  "samples": [
+    {
+      "input": "chris = Player(\"Chris\", 100, 1)\nchris.name",
+      "output": "Chris"
     },
-
-    "12": {
-          "title": "add関数を実装しよう",
-          "text": "二つの整数を受け取り、その和を返すadd関数を実装してください。",
-          "function": "add",
-          "language": [
-            "python"
-          ],
-          "samples": [
-            {
-              "input": "1 2",
-              "output": "3"
-            },
-            {
-              "input": "10 20",
-              "output": "30"
-            },
-            {
-              "input": "-5 8",
-              "output": "3"
-            }
-          ]
-        },
-
-    "13": {
-      "title": "大きい方を出力",
-      "text": "二つの整数 A, B が空白区切りで与えられます。A と B のうち、大きい方の値を出力してください。",
-      "samples": [
-        {
-          "input": "3 5",
-          "output": "5"
-        },
-        {
-          "input": "10 7",
-          "output": "10"
-        }
-      ]
+    {
+      "input": "alice = Player(\"Alice\", 100, 1)\nalice.hp",
+      "output": "100"
     },
-
-    "21": {
-      "title": "1からNまでの和",
-      "text": "整数 N が与えられます。1 から N までの整数の総和を出力してください。",
-      "samples": [
-        {
-          "input": "5",
-          "output": "15"
-        },
-        {
-          "input": "10",
-          "output": "55"
-        }
-      ]
-    },
-
-    "22": {
-      "title": "偶数の個数",
-      "text": "N 個の整数が与えられます。その中に含まれる偶数の個数を出力してください。",
-      "samples": [
-        {
-          "input": "5\n1 2 3 4 5",
-          "output": "2"
-        },
-        {
-          "input": "6\n2 4 6 8 10 12",
-          "output": "6"
-        }
-      ]
-    },
-
-    "31": {
-      "title": "add関数",
-      "text": "二つの整数 A, B が空白区切りで与えられます。A と B の和を返す add 関数を作成してください。作成した関数を使用して、計算結果を出力してください。",
-      "samples": [
-        {
-          "input": "1 2",
-          "output": "3"
-        },
-        {
-          "input": "100 200",
-          "output": "300"
-        }
-      ]
-    },
-
-    "32": {
-      "title": "Playerクラス",
-      "text": "ゲーム中のプレイヤーを表す Player クラスを作成してください。Player は x と y の座標を持ち、move(dx, dy) メソッドによって座標を移動できるものとします。移動後の x, y を空白区切りで出力してください。",
-      "samples": [
-        {
-          "input": "10 20\n3 -5",
-          "output": "13 15"
-        },
-        {
-          "input": "0 0\n10 20",
-          "output": "10 20"
-        }
-      ]
-    },
-
-    "33": {
-      "title": "Enemyクラス",
-      "text": "敵を表す Enemy クラスを作成してください。Enemy は hp を持ち、damage(value) メソッドによって hp を value だけ減少させます。hp が 0 未満になった場合は 0 としてください。",
-      "samples": [
-        {
-          "input": "100\n30",
-          "output": "70"
-        },
-        {
-          "input": "50\n80",
-          "output": "0"
-        }
-      ]
-    },
-
-    "34": {
-      "title": "二つの値の和",
-      "text": "二つの値が空白区切りで与えられるので、その和を出力する add 関数を作成してください。",
-      "samples": [
-        {
-          "input": "1 2",
-          "output": "3"
-        },
-        {
-          "input": "10 20",
-          "output": "30"
-        },
-        {
-          "input": "-5 8",
-          "output": "3"
-        }
-      ]
+    {
+      "input": "bob = Player(\"Bob\", 100, 1)\nbob.level",
+      "output": "1"
     }
+  ]
+},
+
+"22": {
+  "title": "Create LevelUp",
+  "text": "21の問題で作成したPlayerクラスに、level_upメソッドを追加してください。level_upメソッドを呼び出すと、プレイヤーのレベルが1上がるようにしてください。",
+  "class": "Player",
+  "language": [
+    "python"
+  ],
+  "samples": [
+    {
+      "input": "david = Player(\"David\", 100, 1)\ndavid.level_up()\ndavid.level",
+      "output": "2"
+    },
+    {
+      "input": "emma = Player(\"Emma\", 100, 3)\nemma.level_up()\nemma.level",
+      "output": "4"
+    },
+    {
+      "input": "frank = Player(\"Frank\", 100, 10)\nfrank.level_up()\nfrank.level",
+      "output": "11"
+    }
+  ]
+},
+
+"23": {
+  "title": "Do Damage",
+  "text": "22の問題で作成したPlayerクラスに、do_damageメソッドを追加してください。攻撃力をlevel × 3とし、do_damageメソッドを呼び出すと、その攻撃力をダメージとして返してください。",
+  "class": "Player",
+  "language": [
+    "python"
+  ],
+  "samples": [
+    {
+      "input": "grace = Player(\"Grace\", 100, 1)\ngrace.do_damage()",
+      "output": "3"
+    },
+    {
+      "input": "henry = Player(\"Henry\", 100, 5)\nhenry.do_damage()",
+      "output": "15"
+    },
+    {
+      "input": "irene = Player(\"Irene\", 100, 10)\nirene.do_damage()",
+      "output": "30"
+    }
+  ]
+},
+
+
+"24": {
+  "title": "Create Heal",
+  "text": "23の問題で作成したPlayerクラスに、healメソッドを追加してください。レベルが5以上の場合のみhealメソッドが動作するようにし、HPをlevel × 10回復してください。",
+  "class": "Player",
+  "language": [
+    "python"
+  ],
+  "samples": [
+    {
+      "input": "chris = Player(\"Chris\", 100, 5)\nchris.heal()\nchris.hp",
+      "output": "150"
+    },
+    {
+      "input": "alice = Player(\"Alice\", 100, 10)\nalice.heal()\nalice.hp",
+      "output": "200"
+    },
+    {
+      "input": "bob = Player(\"Bob\", 100, 4)\nbob.heal()\nbob.hp",
+      "output": "100"
+    }
+  ]
+},
+
+"25": {
+  "title": "Upgrade Heal",
+  "text": "24の問題で作成したPlayerクラスのhealメソッドを改良してください。現在のHPが最初に設定したHPを超えないようにしてください。そのため、__init__の中で最大HPを表すMAX_HPを設定して実装してください。",
+  "class": "Player",
+  "language": [
+    "python"
+  ],
+  "samples": [
+    {
+      "input": "david = Player(\"David\", 100, 5)\ndavid.hp = 80\ndavid.heal()\ndavid.hp",
+      "output": "100"
+    },
+    {
+      "input": "emma = Player(\"Emma\", 100, 10)\nemma.hp = 50\nemma.heal()\nemma.hp",
+      "output": "100"
+    },
+    {
+      "input": "frank = Player(\"Frank\", 100, 5)\nfrank.hp = 100\nfrank.heal()\nfrank.hp",
+      "output": "100"
+    }
+  ]
+},
+
+"26": {
+  "title": "Add Weapon",
+  "text": "25の問題で作成したPlayerクラスに、武器を追加してください。\n\nPlayer(name, hp, level, weapon) のように初期化できるようにし、使用できる武器は \"wand\"、\"excalibur\"、\"insult\" の3種類とします。\n\n武器の攻撃力は、以下のように設定してください。\n\n- wand: 3\n- excalibur: 30\n- insult: 0\n\n`do_damage` メソッドでは、以下の計算式でダメージを返してください。\n\n**ダメージ = level × 3 + 武器の攻撃力**",
+  "class": "Player",
+  "language": [
+    "python"
+  ],
+  "samples": [
+    {
+      "input": "grace = Player(\"Grace\", 100, 1, \"wand\")\ngrace.do_damage()",
+      "output": "6"
+    },
+    {
+      "input": "henry = Player(\"Henry\", 100, 1, \"excalibur\")\nhenry.do_damage()",
+      "output": "33"
+    },
+    {
+      "input": "irene = Player(\"Irene\", 100, 1, \"insult\")\nirene.do_damage()",
+      "output": "3"
+    }
+  ]
+},
+
+
+
+"27": {
+  "title": "Add Special Effects",
+  "text": "26の問題で作成したPlayerクラスに、武器の特殊効果を追加してください。\n\nwand を装備している場合、heal メソッドによる回復量を通常の2倍にしてください。\n\nまた、insult を装備していて、レベルが50以上の場合は、武器の攻撃力を60として do_damage のダメージを計算してください。",
+  "class": "Player",
+  "language": [
+    "python"
+  ],
+  "samples": [
+    {
+      "input": "alice = Player(\"Alice\", 100, 5, \"wand\")\nalice.hp = 50\nalice.heal()\nalice.hp",
+      "output": "100"
+    },
+    {
+      "input": "bob = Player(\"Bob\", 100, 50, \"insult\")\nbob.do_damage()",
+      "output": "210"
+    },
+    {
+      "input": "charlie = Player(\"Charlie\", 100, 49, \"insult\")\ncharlie.do_damage()",
+      "output": "147"
+    }
+  ]
+},
+
+"28": {
+  "title": "Add Weapon Flag",
+  "text": "27の問題で作成したPlayerクラスを変更してください。\n\n武器の種類を個別の変数で管理するのではなく、武器ごとの状態を表すflag配列で管理してください。\n\nflag配列は、\n\n[wand_flag, excalibur_flag, insult_flag]\n\nの順番とします。\n\n例えば、wand を装備している場合は、\n\n[True, False, False]\n\nとなります。\n\nexcalibur の場合は、\n\n[False, True, False]\n\ninsult の場合は、\n\n[False, False, True]\n\nとなります。\n\ndo_damage や heal などの各メソッドも、このflag配列を使用して武器の種類を判定するように変更してください。",
+  "class": "Player",
+  "language": [
+    "python"
+  ],
+  "samples": [
+    {
+      "input": "david = Player(\"David\", 100, 1, \"wand\")\ndavid.flag",
+      "output": "[True, False, False]"
+    },
+    {
+      "input": "emma = Player(\"Emma\", 100, 1, \"excalibur\")\nemma.flag",
+      "output": "[False, True, False]"
+    },
+    {
+      "input": "frank = Player(\"Frank\", 100, 1, \"insult\")\nfrank.flag",
+      "output": "[False, False, True]"
+    }
+  ]
+},
+
+"29": {
+  "title": "Change Weapon",
+  "text": "28の問題で作成したPlayerクラスに、武器を変更する weapon_change メソッドを追加してください。\n\nweapon_change(\"wand\") のように武器の名前を引数として受け取り、現在装備している武器を変更してください。\n\n武器を変更したときは、flag配列も新しい武器に対応する状態へ変更してください。\n\n例えば、現在 excalibur を装備しているプレイヤーが、\n\nplayer.weapon_change(\"wand\")\n\nを実行すると、flag配列は、\n\n[True, False, False]\n\nとなります。\n\n武器変更後も、do_damage や heal などの各メソッドが、変更後の武器に応じて正しく動作するようにしてください。",
+  "class": "Player",
+  "language": [
+    "python"
+  ],
+  "samples": [
+    {
+      "input": "grace = Player(\"Grace\", 100, 1, \"excalibur\")\ngrace.weapon_change(\"wand\")\ngrace.flag",
+      "output": "[True, False, False]"
+    },
+    {
+      "input": "henry = Player(\"Henry\", 100, 1, \"wand\")\nhenry.weapon_change(\"insult\")\nhenry.flag",
+      "output": "[False, False, True]"
+    },
+    {
+      "input": "irene = Player(\"Irene\", 100, 1, \"insult\")\nirene.weapon_change(\"excalibur\")\nirene.flag",
+      "output": "[False, True, False]"
+    }
+  ]
+},
+
+
+
+
+  "31": {
+  "title": "Character Class",
+  "text": "21〜25の問題で作成したPlayerクラスを、Characterクラスを継承する形に変更してください。\n\nCharacterクラスには、name、hp、level、MAX_HPの変数を持たせ、level_up()、do_damage()、heal()を移してください。\n\nCharacterクラスのコンストラクタは、__init__(self, name, hp, level)としてください。MAX_HPには最初に設定したHPを保存してください。\n\nその上で、Characterクラスを継承するPlayerクラスとEnemyクラスを作成してください。PlayerとEnemyのどちらも、Characterから継承したlevel_up()、do_damage()、heal()を使用できるようにしてください。",
+  "class": "Character",
+  "language": [
+    "python"
+  ],
+  "samples": [
+    {
+      "input": "player = Player(\"Chris\", 100, 1)\nplayer.name",
+      "output": "Chris"
+    },
+    {
+      "input": "player = Player(\"Chris\", 100, 1)\nplayer.hp",
+      "output": "100"
+    },
+    {
+      "input": "player = Player(\"Chris\", 100, 1)\nplayer.level",
+      "output": "1"
+    },
+    {
+      "input": "player = Player(\"Chris\", 100, 1)\nplayer.MAX_HP",
+      "output": "100"
+    },
+    {
+      "input": "enemy = Enemy(\"Slime\", 50, 3)\nenemy.name",
+      "output": "Slime"
+    },
+    {
+      "input": "enemy = Enemy(\"Slime\", 50, 3)\nenemy.hp",
+      "output": "50"
+    },
+    {
+      "input": "enemy = Enemy(\"Slime\", 50, 3)\nenemy.level",
+      "output": "3"
+    },
+    {
+      "input": "player = Player(\"Chris\", 100, 5)\nplayer.level_up()\nplayer.level",
+      "output": "6"
+    }
+  ]
+},
+
+"32": {
+  "title": "Are you alive?",
+  "text": "is_aliveメソッドをCharacterクラスに作成してください。現在のHPが0以下ならFalse、0より大きければTrueを返すようにしてください。",
+  "class": "Character",
+  "language": [
+    "python"
+  ],
+  "samples": [
+    {
+      "input": "player = Player(\"Chris\", 100, 1)\nplayer.is_alive()",
+      "output": "True"
+    },
+    {
+      "input": "player = Player(\"Chris\", 100, 1)\nplayer.hp = 1\nplayer.is_alive()",
+      "output": "True"
+    },
+    {
+      "input": "player = Player(\"Chris\", 100, 1)\nplayer.hp = 0\nplayer.is_alive()",
+      "output": "False"
+    },
+    {
+      "input": "player = Player(\"Chris\", 100, 1)\nplayer.hp = -10\nplayer.is_alive()",
+      "output": "False"
+    },
+    {
+      "input": "enemy = Enemy(\"Slime\", 50, 3)\nenemy.is_alive()",
+      "output": "True"
+    },
+    {
+      "input": "enemy = Enemy(\"Slime\", 50, 3)\nenemy.hp = 0\nenemy.is_alive()",
+      "output": "False"
+    }
+  ]
+},
+
+"33": {
+  "title": "PVP",
+  "text": "attackメソッドをCharacterクラスに作成してください。attack(self, target)のように相手を指定できるようにし、攻撃した相手のHPを、自分のdo_damage()の分だけ減らしてください。PlayerがPlayerやEnemyを攻撃できるようにし、EnemyもPlayerやEnemyを攻撃できるようにしてください。",
+  "class": "Character",
+  "language": [
+    "python"
+  ],
+  "samples": [
+    {
+      "input": "player = Player(\"Chris\", 100, 1)\nenemy = Enemy(\"Slime\", 50, 1)\nplayer.attack(enemy)\nenemy.hp",
+      "output": "47"
+    },
+    {
+      "input": "player = Player(\"Chris\", 100, 1)\nplayer2 = Player(\"Alex\", 100, 1)\nplayer.attack(player2)\nplayer2.hp",
+      "output": "97"
+    },
+    {
+      "input": "enemy = Enemy(\"Slime\", 50, 1)\nplayer = Player(\"Chris\", 100, 1)\nenemy.attack(player)\nplayer.hp",
+      "output": "97"
+    },
+    {
+      "input": "player = Player(\"Chris\", 100, 5)\nenemy = Enemy(\"Slime\", 100, 1)\nplayer.attack(enemy)\nenemy.hp",
+      "output": "85"
+    },
+    {
+      "input": "enemy = Enemy(\"Slime\", 100, 10)\nplayer = Player(\"Chris\", 100, 1)\nenemy.attack(player)\nplayer.hp",
+      "output": "70"
+    }
+  ]
+},
+
+"34": {
+  "title": "Give Me Heal",
+  "text": "healメソッドを改良してください。heal(self, target)のように回復する相手を指定できるようにしてください。回復量は、自分の通常のhealと同じ量とします。相手がすでに死んでいる場合は回復できないようにしてください。また、回復後のHPが相手のMAX_HPを超えないようにしてください。",
+  "class": "Character",
+  "language": [
+    "python"
+  ],
+  "samples": [
+    {
+      "input": "player = Player(\"Chris\", 100, 5)\nplayer2 = Player(\"Alex\", 100, 1)\nplayer2.hp = 50\nplayer.heal(player2)\nplayer2.hp",
+      "output": "100"
+    },
+    {
+      "input": "player = Player(\"Chris\", 200, 5)\nplayer2 = Player(\"Alex\", 100, 1)\nplayer2.hp = 50\nplayer.heal(player2)\nplayer2.hp",
+      "output": "100"
+    },
+    {
+      "input": "player = Player(\"Chris\", 100, 5)\nplayer2 = Player(\"Alex\", 100, 1)\nplayer2.hp = 0\nplayer.heal(player2)\nplayer2.hp",
+      "output": "0"
+    },
+    {
+      "input": "player = Player(\"Chris\", 100, 5)\nenemy = Enemy(\"Slime\", 50, 1)\nenemy.hp = 20\nplayer.heal(enemy)\nenemy.hp",
+      "output": "50"
+    },
+    {
+      "input": "player = Player(\"Chris\", 100, 4)\nplayer2 = Player(\"Alex\", 100, 1)\nplayer2.hp = 50\nplayer.heal(player2)\nplayer2.hp",
+      "output": "50"
+    }
+  ]
+},
+
+"35": {
+  "title": "Area Attack",
+  "text": "Playerに範囲攻撃を行うarea_attackメソッドを追加してください。area_attack(self, enemys)のように敵の配列を指定すると、配列に格納されたEnemyそれぞれに、自分のdo_damage()の1/3のダメージを与えてください。ダメージは小数点以下を切り捨ててください。",
+  "class": "Player",
+  "language": [
+    "python"
+  ],
+  "samples": [
+    {
+      "input": "player = Player(\"Chris\", 100, 1)\nenemys = [Enemy(\"Slime\", 50, 1), Enemy(\"Goblin\", 40, 1)]\nplayer.area_attack(enemys)\nenemys[0].hp",
+      "output": "49"
+    },
+    {
+      "input": "player = Player(\"Chris\", 100, 1)\nenemys = [Enemy(\"Slime\", 50, 1), Enemy(\"Goblin\", 40, 1)]\nplayer.area_attack(enemys)\nenemys[1].hp",
+      "output": "39"
+    },
+    {
+      "input": "player = Player(\"Chris\", 100, 5)\nenemys = [Enemy(\"Slime\", 100, 1), Enemy(\"Goblin\", 100, 1)]\nplayer.area_attack(enemys)\nenemys[0].hp",
+      "output": "95"
+    },
+    {
+      "input": "player = Player(\"Chris\", 100, 5)\nenemys = [Enemy(\"Slime\", 100, 1), Enemy(\"Goblin\", 100, 1)]\nplayer.area_attack(enemys)\nenemys[1].hp",
+      "output": "95"
+    },
+    {
+      "input": "player = Player(\"Chris\", 100, 10)\nenemys = [Enemy(\"Slime\", 100, 1)]\nplayer.area_attack(enemys)\nenemys[0].hp",
+      "output": "90"
+    }
+  ]
+},
+
+"36": {
+  "title": "Kerplunk",
+  "text": "Kerplunkという呪文を覚えました。Kerplunkは、死んでいる複数のキャラクターをHP1で生き返らせる呪文です。ただし、生き返らせたキャラクター1人につき30のダメージを、Kerplunkを使用した自分自身が受けます。Kerplunk(self, targets)としてメソッドを作成し、targetsの配列に入っている死んだキャラクターを生き返らせてください。すでに生きているキャラクターは生き返らせず、ダメージも受けません。",
+  "class": "Character",
+  "language": [
+    "python"
+  ],
+  "samples": [
+    {
+      "input": "player = Player(\"Chris\", 100, 1)\nenemy = Enemy(\"Slime\", 50, 1)\nenemy.hp = 0\nplayer.Kerplunk([enemy])\nenemy.hp",
+      "output": "1"
+    },
+    {
+      "input": "player = Player(\"Chris\", 100, 1)\nenemy = Enemy(\"Slime\", 50, 1)\nenemy.hp = 0\nplayer.Kerplunk([enemy])\nplayer.hp",
+      "output": "70"
+    },
+    {
+      "input": "player = Player(\"Chris\", 100, 1)\nenemy1 = Enemy(\"Slime\", 50, 1)\nenemy2 = Enemy(\"Goblin\", 50, 1)\nenemy1.hp = 0\nenemy2.hp = 0\nplayer.Kerplunk([enemy1, enemy2])\nenemy1.hp",
+      "output": "1"
+    },
+    {
+      "input": "player = Player(\"Chris\", 100, 1)\nenemy1 = Enemy(\"Slime\", 50, 1)\nenemy2 = Enemy(\"Goblin\", 50, 1)\nenemy1.hp = 0\nenemy2.hp = 0\nplayer.Kerplunk([enemy1, enemy2])\nplayer.hp",
+      "output": "40"
+    },
+    {
+      "input": "player = Player(\"Chris\", 100, 1)\nenemy = Enemy(\"Slime\", 50, 1)\nplayer.Kerplunk([enemy])\nenemy.hp",
+      "output": "50"
+    },
+    {
+      "input": "player = Player(\"Chris\", 100, 1)\nenemy1 = Enemy(\"Slime\", 50, 1)\nenemy2 = Enemy(\"Goblin\", 50, 1)\nenemy1.hp = 0\nplayer.Kerplunk([enemy1, enemy2])\nplayer.hp",
+      "output": "70"
+    },
+    {
+      "input": "player = Player(\"Chris\", 100, 1)\nenemy = Enemy(\"Slime\", 50, 1)\nenemy.hp = -10\nplayer.Kerplunk([enemy])\nenemy.hp",
+      "output": "1"
+    }
+  ]
+}
   }
 }
